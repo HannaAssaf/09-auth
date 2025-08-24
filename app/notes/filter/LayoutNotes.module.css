@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #2c2c2c;
+  color: white;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  border-right: 1px solid #ddd;
+}
+
+.notesWrapper {
+  width: 100%;
+  flex: 1;
+}
