@@ -8,3 +8,22 @@ export interface Note {
 }
 
 export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+
+export interface FetchNotesProps {
+  notes: Note[];
+  totalPages: number;
+}
+
+export interface NewNoteData {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}
+
+export interface TagType {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
