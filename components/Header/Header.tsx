@@ -18,8 +18,10 @@ export default async function Header() {
           </li>
           <li>
             <TagsMenu />
-            <AuthNavigation />
           </li>
+          {/* <li> */}
+          <AuthNavigation />
+          {/* </li> */}
         </ul>
       </nav>
     </header>

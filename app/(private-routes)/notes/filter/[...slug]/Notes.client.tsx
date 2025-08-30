@@ -6,9 +6,9 @@ import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
 import css from "./page.module.css";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/clientApi";
 import { useDebouncedCallback } from "use-debounce";
-import type { FetchNotesProps } from "@/lib/api";
+import type { FetchNotesProps } from "@/types/note";
 import Link from "next/link";
 
 interface NotesClientProps {

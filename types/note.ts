@@ -27,3 +27,8 @@ export interface TagType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface RegisterRequestData {
+  email: string;
+  password: string;
+}

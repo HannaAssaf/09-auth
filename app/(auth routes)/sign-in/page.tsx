@@ -1,11 +1,12 @@
 "use client";
 import css from "./SignInPage.module.css";
 
-export default function SignInPage() {
+export default function Login() {
   return (
     <main className={css.mainContent}>
-      <h1 className={css.formTitle}>Sign up</h1>
       <form className={css.form}>
+        <h1 className={css.formTitle}>Sign in</h1>
+
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input
@@ -30,7 +31,7 @@ export default function SignInPage() {
 
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
-            Register
+            Log in
           </button>
         </div>
 
