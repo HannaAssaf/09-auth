@@ -13,22 +13,19 @@ export default function Login() {
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleLogin = async (formData: FormData) => {
+    setError("");
     try {
       const data = Object.fromEntries(formData) as unknown as LoginRequestData;
       const response = await login(data);
-
-      if (response) {
-        setUser(response);
-        router.push("/profile");
-      } else {
-        setError("Wrong email or password");
-      }
+      setUser(response);
+      router.replace("/profile");
     } catch (error) {
-      setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          "Something went wrong"
-      );
+      const apiError = error as ApiError;
+      if (apiError.response?.status === 401) {
+        setError("Invalid email or password");
+      } else {
+        setError("Oops... some error");
+      }
     }
   };
 
@@ -64,8 +61,8 @@ export default function Login() {
             Log in
           </button>
         </div>
+        {error && <p className={css.error}>{error}</p>}
       </form>
-      {error && <p>{error}</p>}
     </main>
   );
 }

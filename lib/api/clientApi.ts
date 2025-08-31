@@ -50,3 +50,7 @@ export const login = async (payload: LoginRequestData): Promise<User> => {
   const response = await api.post<User>(`/auth/login`, payload);
   return response.data;
 };
+
+export const logout = async (): Promise<void> => {
+  await api.post<User>(`/auth/logout`);
+};

@@ -24,13 +24,13 @@ export default function Register() {
         setUser(response);
         router.push("/profile");
       } else {
-        setError("Wrong email or password");
+        setError("Invalid email or password");
       }
     } catch (error) {
       setError(
         (error as ApiError).response?.data?.error ??
           (error as ApiError).message ??
-          "Something went wrong"
+          "Oops... some error"
       );
     }
   };
@@ -64,8 +64,8 @@ export default function Register() {
             Register
           </button>
         </div>
+        <p className={css.error}>{error}</p>
       </form>
-      <p className={css.error}>{error}</p>
     </main>
   );
 }
