@@ -18,7 +18,7 @@ export default function Login() {
       const data = Object.fromEntries(formData) as unknown as LoginRequestData;
       const response = await login(data);
       setUser(response);
-      router.replace("/profile");
+      router.push("/profile");
     } catch (error) {
       const apiError = error as ApiError;
       if (apiError.response?.status === 401) {

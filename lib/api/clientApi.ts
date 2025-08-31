@@ -4,22 +4,23 @@ import type {
   NewNoteData,
   RegisterRequestData,
   LoginRequestData,
+  CheckSessionRequest,
 } from "@/types/note";
 import type { User } from "@/types/user";
 import { api } from "../../app/api/api";
 
 export const fetchNotes = async (
-  search: string = "",
   page: number = 1,
-  tag?: string,
-  perPage: number = 12
+  perPage: number = 12,
+  search: string = "",
+  tag?: string
 ) => {
   const config = {
     params: {
-      search,
       page,
-      tag,
       perPage,
+      search,
+      tag,
     },
   };
   const response = await api.get<FetchNotesProps>(`/notes`, config);
@@ -53,4 +54,14 @@ export const login = async (payload: LoginRequestData): Promise<User> => {
 
 export const logout = async (): Promise<void> => {
   await api.post<User>(`/auth/logout`);
+};
+
+export const checkSession = async () => {
+  const res = await api.get<CheckSessionRequest>("/auth/session");
+  return res.data.success;
+};
+
+export const getMe = async () => {
+  const { data } = await api.get<User>("/auth/me");
+  return data;
 };

@@ -37,3 +37,7 @@ export interface LoginRequestData {
   email: string;
   password: string;
 }
+
+export type CheckSessionRequest = {
+  success: boolean;
+};
