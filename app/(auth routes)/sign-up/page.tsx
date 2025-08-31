@@ -1,39 +1,44 @@
+"use client";
+
 import css from "./SignUpPage.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { RegisterRequestData } from "@/types/note";
 import { register } from "@/lib/api/clientApi";
 import { ApiError } from "@/lib/api/api";
-
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function Register() {
-     const router = useRouter();
+  const router = useRouter();
   const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleRegister = async (formData: FormData) => {
     try {
-      const data = Object.fromEntries(formData) as RegisterRequestData;
+      const data = Object.fromEntries(
+        formData
+      ) as unknown as RegisterRequestData;
       const response = await register(data);
 
       if (response) {
         setUser(response);
         router.push("/profile");
       } else {
-        setError("Wrong email of password");
-      }}
+        setError("Wrong email or password");
+      }
     } catch (error) {
-        setError(
+      setError(
         (error as ApiError).response?.data?.error ??
-        (error as ApiError).message ??
-        "Something went wrong"
-      )
+          (error as ApiError).message ??
+          "Something went wrong"
+      );
     }
-};
+  };
 
   return (
     <main className={css.mainContent}>
       <h1 className={css.formTitle}>Sign up</h1>
-      <form className={css.form}>
+      <form className={css.form} action={handleRegister}>
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input
@@ -44,7 +49,6 @@ export default function Register() {
             required
           />
         </div>
-
         <div className={css.formGroup}>
           <label htmlFor="password">Password</label>
           <input
@@ -55,15 +59,13 @@ export default function Register() {
             required
           />
         </div>
-
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
             Register
           </button>
         </div>
-
-        <p className={css.error}>Error</p>
       </form>
+      <p className={css.error}>{error}</p>
     </main>
   );
 }

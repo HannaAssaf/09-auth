@@ -32,3 +32,8 @@ export interface RegisterRequestData {
   email: string;
   password: string;
 }
+
+export interface LoginRequestData {
+  email: string;
+  password: string;
+}

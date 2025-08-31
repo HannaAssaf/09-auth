@@ -1,10 +1,40 @@
 "use client";
+import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignInPage.module.css";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ApiError } from "@/lib/api/api";
+import { login } from "@/lib/api/clientApi";
+import { LoginRequestData } from "@/types/note";
 
 export default function Login() {
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
+
+  const handleLogin = async (formData: FormData) => {
+    try {
+      const data = Object.fromEntries(formData) as unknown as LoginRequestData;
+      const response = await login(data);
+
+      if (response) {
+        setUser(response);
+        router.push("/profile");
+      } else {
+        setError("Wrong email or password");
+      }
+    } catch (error) {
+      setError(
+        (error as ApiError).response?.data?.error ??
+          (error as ApiError).message ??
+          "Something went wrong"
+      );
+    }
+  };
+
   return (
     <main className={css.mainContent}>
-      <form className={css.form}>
+      <form className={css.form} action={handleLogin}>
         <h1 className={css.formTitle}>Sign in</h1>
 
         <div className={css.formGroup}>
@@ -34,9 +64,8 @@ export default function Login() {
             Log in
           </button>
         </div>
-
-        <p className={css.error}>Error</p>
       </form>
+      {error && <p>{error}</p>}
     </main>
   );
 }

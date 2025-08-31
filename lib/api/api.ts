@@ -8,3 +8,15 @@ export const api = axios.create({
   baseURL,
   withCredentials: true,
 });
+
+api.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  if (refreshToken) {
+    config.headers["x-refresh-token"] = refreshToken;
+  }
+  return config;
+});
