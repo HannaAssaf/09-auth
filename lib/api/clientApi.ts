@@ -14,30 +14,16 @@ export const fetchNotes = async (
   tag?: string,
   perPage: number = 12
 ) => {
-  try {
-    if (!localStorage.getItem("accessToken")) {
-      throw new Error("User is not authenticated");
-    }
-    const config = {
-      params: {
-        search,
-        page,
-        tag,
-        perPage,
-      },
-    };
-    const response = await api.get<FetchNotesProps>(`/notes`, config);
-    return response.data;
-  } catch (err: unknown) {
-    if (typeof err === "object" && err !== null && "response" in err) {
-      const axiosError = err as any;
-      if (axiosError.response?.status === 401) {
-        window.location.href = "/sign-in";
-        return;
-      }
-    }
-    throw err;
-  }
+  const config = {
+    params: {
+      search,
+      page,
+      tag,
+      perPage,
+    },
+  };
+  const response = await api.get<FetchNotesProps>(`/notes`, config);
+  return response.data;
 };
 
 export const createNote = async (data: NewNoteData) => {
