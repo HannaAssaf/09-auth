@@ -1,32 +1,80 @@
+import { useState, useEffect } from "react";
 import css from "./EditProfilePage.module.css";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
+import Image from "next/image";
+import { updateMe } from "@/lib/api/clientApi";
 
 export default function EditProfile() {
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+  const [username, setUsername] = useState(user?.username || "");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user?.username) {
+      setUsername(user.username);
+    }
+  }, [user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handleSaveUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const updatedUser = await updateMe({ username });
+      setUser(updatedUser);
+      router.push("/profile");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <h1 className={css.formTitle}>Edit Profile</h1>
 
-        <img
-          src="avatar"
+        <Image
+          src={
+            user?.avatar ||
+            "https://ac.goit.global/fullstack/react/default-avatar.jpg"
+          }
           alt="User Avatar"
           width={120}
           height={120}
           className={css.avatar}
         />
 
-        <form className={css.profileInfo}>
+        <form className={css.profileInfo} onSubmit={handleSaveUser}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
-            <input id="username" type="text" className={css.input} />
+            <input
+              id="username"
+              type="text"
+              className={css.input}
+              value={username}
+              onChange={handleChange}
+            />
           </div>
 
-          <p>Email: user_email@example.com</p>
+          <p>Email: {user?.email}</p>
 
           <div className={css.actions}>
             <button type="submit" className={css.saveButton}>
               Save
             </button>
-            <button type="button" className={css.cancelButton}>
+            <button
+              type="button"
+              className={css.cancelButton}
+              onClick={handleBack}
+            >
               Cancel
             </button>
           </div>

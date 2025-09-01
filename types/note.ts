@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface Note {
   id: string;
   title: string;
@@ -41,3 +43,7 @@ export interface LoginRequestData {
 export type CheckSessionRequest = {
   success: boolean;
 };
+
+export interface UpdateUser {
+  username: string;
+}

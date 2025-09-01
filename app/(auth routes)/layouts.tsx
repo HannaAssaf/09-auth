@@ -8,13 +8,13 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     router.refresh();
-    setLoading(true);
-  }, []);
+    setLoading(false);
+  }, [router]);
 
   return <>{loading ? <div>Loading...</div> : children}</>;
 }

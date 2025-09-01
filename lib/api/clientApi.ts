@@ -5,6 +5,7 @@ import type {
   RegisterRequestData,
   LoginRequestData,
   CheckSessionRequest,
+  UpdateUser,
 } from "@/types/note";
 import type { User } from "@/types/user";
 import { api } from "../../app/api/api";
@@ -63,5 +64,10 @@ export const checkSession = async () => {
 
 export const getMe = async () => {
   const { data } = await api.get<User>("/auth/me");
+  return data;
+};
+
+export const updateMe = async (payload: UpdateUser): Promise<User> => {
+  const { data } = await api.patch<User>("/users/me", payload);
   return data;
 };
