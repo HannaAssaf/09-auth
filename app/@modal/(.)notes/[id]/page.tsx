@@ -1,5 +1,5 @@
 import NotePreviewClient from "./NotePreview.client";
-import { fetchNoteById } from "@/lib/api/api";
+import { fetchNoteById } from "@/lib/api/serverApi";
 import {
   QueryClient,
   HydrationBoundary,
@@ -21,7 +21,7 @@ export default async function PreviewPage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotePreviewClient />
+      <NotePreviewClient id={id} />
     </HydrationBoundary>
   );
 }

@@ -6,13 +6,6 @@ import Footer from "@/components/Footer/Footer";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-roboto",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "08-zustand",
   description: "NoteHub App",
@@ -33,6 +26,13 @@ export const metadata: Metadata = {
     type: "article",
   },
 };
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto",
+  display: "swap",
+});
 
 export default function RootLayout({
   children,

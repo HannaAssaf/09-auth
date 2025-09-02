@@ -13,12 +13,13 @@ export default function Login() {
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleLogin = async (formData: FormData) => {
-    setError("");
     try {
       const data = Object.fromEntries(formData) as unknown as LoginRequestData;
       const response = await login(data);
-      setUser(response);
-      router.push("/profile");
+      if (response) {
+        setUser(response);
+        router.replace("/profile");
+      }
     } catch (error) {
       const apiError = error as ApiError;
       if (apiError.response?.status === 401) {

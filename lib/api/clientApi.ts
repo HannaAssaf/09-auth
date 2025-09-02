@@ -6,28 +6,35 @@ import type {
   LoginRequestData,
   CheckSessionRequest,
   UpdateUser,
+  FetchNotesParams,
+  FetchNotesResponse,
+  RawFetchNotesResponse,
 } from "@/types/note";
 import type { User } from "@/types/user";
 import { api } from "../../app/api/api";
 
-export const fetchNotes = async (
-  page: number = 1,
-  perPage: number = 12,
-  search: string = "",
-  tag?: string
-) => {
-  const config = {
+export const fetchNotes = async ({
+  page = 1,
+  perPage = 12,
+  search = "",
+  tag,
+}: FetchNotesParams): Promise<FetchNotesResponse> => {
+  const response = await api.get<RawFetchNotesResponse>(`/notes`, {
     params: {
       page,
       perPage,
-      search,
-      tag,
+      ...(search !== "" && { search }),
+      ...(tag && tag !== "All" ? { tag } : {}),
     },
+  });
+  const raw = response.data;
+  return {
+    page,
+    perPage,
+    data: raw.notes,
+    total_pages: raw.totalPages,
   };
-  const response = await api.get<FetchNotesProps>(`/notes`, config);
-  return response.data;
 };
-
 export const createNote = async (data: NewNoteData) => {
   const response = await api.post<Note>(`/notes`, data);
   return response.data;

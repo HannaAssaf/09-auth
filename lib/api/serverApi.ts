@@ -1,15 +1,21 @@
 import { cookies } from "next/headers";
 import { api } from "./api";
 import { User } from "@/types/user";
-import { FetchNotesProps, Note } from "../../types/note";
+import {
+  Note,
+  FetchNotesParams,
+  FetchNotesResponse,
+  RawFetchNotesResponse,
+} from "../../types/note";
 
-export const fetchNotes = async (
-  page: number = 1,
-  perPage: number = 12,
-  search: string = "",
-  tag?: string
-): Promise<FetchNotesProps> => {
-  const config = {
+export const fetchNotes = async ({
+  page = 1,
+  perPage = 12,
+  search = "",
+  tag,
+}: FetchNotesParams): Promise<FetchNotesResponse> => {
+  const cookieStore = await cookies();
+  const response = await api.get<RawFetchNotesResponse>(`/notes`, {
     params: {
       page,
       perPage,
@@ -19,9 +25,14 @@ export const fetchNotes = async (
     headers: {
       Cookie: cookieStore.toString(),
     },
+  });
+  const raw = response.data;
+  return {
+    page,
+    perPage,
+    data: raw.notes,
+    total_pages: raw.totalPages,
   };
-  const response = await api.get<FetchNotesProps>(`/notes`, config);
-  return response.data;
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {

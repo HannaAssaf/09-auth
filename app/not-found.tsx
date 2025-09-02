@@ -1,4 +1,4 @@
-import css from "./not-found.module.css";
+import css from "./page.module.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
