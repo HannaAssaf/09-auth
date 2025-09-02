@@ -19,6 +19,7 @@ export default function Login() {
       if (response) {
         setUser(response);
         router.replace("/profile");
+        router.refresh();
       }
     } catch (error) {
       const apiError = error as ApiError;

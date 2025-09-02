@@ -17,7 +17,7 @@ export default function EditProfile() {
     }
   }, [user]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 

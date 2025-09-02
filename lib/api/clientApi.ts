@@ -64,13 +64,13 @@ export const logout = async (): Promise<void> => {
   await api.post<User>(`/auth/logout`);
 };
 
-export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>("/auth/session");
-  return res.data.success;
+export const checkSession = async (): Promise<User | null> => {
+  const res = await api.get<User | null>("/auth/session");
+  return res.data ?? null;
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>("/auth/me");
+  const { data } = await api.get<User>("/users/me");
   return data;
 };
 

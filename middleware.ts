@@ -8,6 +8,7 @@ const publicRoutes = ["/sign-in", "/sign-up"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
@@ -59,13 +60,26 @@ export async function middleware(request: NextRequest) {
         }
       } catch (error) {
         cookieStore.delete("refreshToken");
-        return NextResponse.redirect(new URL("/sing-in", request.url));
+        return NextResponse.redirect(new URL("/sign-in", request.url));
       }
     }
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
+
+  if (isPrivateRoute && !accessToken) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+  if (isPrivateRoute && accessToken) {
+    return NextResponse.redirect(new URL("/profile", request.url));
+  }
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/profile/:path*", "/notes/:path*", "/sign-in", "/sign-up"],
+  matcher: [
+    "/profile/:path*",
+    "/notes/:path*",
+    "/notes/filter/:path*",
+    "/sign-in",
+    "/sign-up",
+  ],
 };
