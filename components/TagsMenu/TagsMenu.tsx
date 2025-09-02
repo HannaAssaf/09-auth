@@ -1,19 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import css from "./TagsMenu.module.css";
 import Link from "next/link";
-
+import { fetchNotes } from "@/lib/api/clientApi";
+import { NoteTag } from "../../types/note";
 const tagCategories: string[] = [
   "Todo",
   "Work",
   "Personal",
   "Meeting",
   "Shopping",
+  "Ideas",
+  "Travel",
+  "Finance",
+  "Health",
+  "Important",
 ];
 
 const TagsMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -29,7 +35,7 @@ const TagsMenu = () => {
               className={css.menuLink}
               onClick={toggle}
             >
-              All
+              All notes
             </Link>
           </li>
           {tagCategories.map((tag) => (

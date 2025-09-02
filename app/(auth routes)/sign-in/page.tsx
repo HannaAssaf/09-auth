@@ -1,4 +1,5 @@
 "use client";
+
 import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignInPage.module.css";
 import { useRouter } from "next/navigation";
@@ -11,23 +12,30 @@ export default function Login() {
   const router = useRouter();
   const [error, setError] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) {
+    router.push("/profile");
+    return null;
+  }
 
   const handleLogin = async (formData: FormData) => {
     try {
       const data = Object.fromEntries(formData) as unknown as LoginRequestData;
       const response = await login(data);
+
       if (response) {
         setUser(response);
-        router.replace("/profile");
-        router.refresh();
+        router.push("/profile");
+      } else {
+        setError("Invalid email or password");
       }
     } catch (error) {
-      const apiError = error as ApiError;
-      if (apiError.response?.status === 401) {
-        setError("Invalid email or password");
-      } else {
-        setError("Oops... some error");
-      }
+      setError(
+        (error as ApiError).response?.data?.error ??
+          (error as ApiError).message ??
+          "Oops... some error"
+      );
     }
   };
 

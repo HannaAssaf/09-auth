@@ -1,6 +1,5 @@
 import type {
   Note,
-  FetchNotesProps,
   NewNoteData,
   RegisterRequestData,
   LoginRequestData,
@@ -64,9 +63,9 @@ export const logout = async (): Promise<void> => {
   await api.post<User>(`/auth/logout`);
 };
 
-export const checkSession = async (): Promise<User | null> => {
-  const res = await api.get<User | null>("/auth/session");
-  return res.data ?? null;
+export const checkSession = async (): Promise<Boolean> => {
+  const res = await api.get<CheckSessionRequest>("/auth/session");
+  return res.data.success;
 };
 
 export const getMe = async () => {
