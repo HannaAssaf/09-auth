@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import css from "./TagsMenu.module.css";
 import Link from "next/link";
-import { fetchNotes } from "@/lib/api/clientApi";
 import { NoteTag } from "../../types/note";
-const tagCategories: string[] = [
+const tagCategories: NoteTag[] = [
   "Todo",
   "Work",
   "Personal",
