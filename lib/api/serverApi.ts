@@ -26,6 +26,7 @@ export const fetchNotes = async ({
       Cookie: cookieStore.toString(),
     },
   });
+
   const raw = response.data;
   return {
     page,

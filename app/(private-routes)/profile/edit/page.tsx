@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import css from "./EditProfilePage.module.css";
 import { useRouter } from "next/navigation";
