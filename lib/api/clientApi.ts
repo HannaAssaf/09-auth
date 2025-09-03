@@ -34,8 +34,8 @@ export const fetchNotes = async ({
     total_pages: raw.totalPages,
   };
 };
-export const createNote = async (data: NewNoteData) => {
-  const response = await api.post<Note>(`/notes`, data);
+export const createNote = async (payload: NewNoteData) => {
+  const response = await api.post<Note>(`/notes`, payload);
   return response.data;
 };
 
@@ -64,8 +64,8 @@ export const logout = async (): Promise<void> => {
 };
 
 export const checkSession = async (): Promise<Boolean> => {
-  const res = await api.get<CheckSessionRequest>("/auth/session");
-  return res.data.success;
+  const { data } = await api.get<CheckSessionRequest>("/auth/session");
+  return data.success;
 };
 
 export const getMe = async () => {
