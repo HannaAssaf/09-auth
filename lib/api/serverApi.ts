@@ -65,3 +65,5 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+//змінити api clients / server
