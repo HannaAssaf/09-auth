@@ -2,8 +2,12 @@ import AuthNavigation from "../AuthNavigation/AuthNavigation";
 import TagsMenu from "../TagsMenu/TagsMenu";
 import css from "./Header.module.css";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 export default async function Header() {
+  const token = (await cookies()).get("accessToken")?.value;
+  const isAuthenticated = Boolean(token);
+
   return (
     <header className={css.header}>
       <Link href="/" aria-label="Home">
@@ -16,8 +20,8 @@ export default async function Header() {
               Home
             </Link>
           </li>
-          <TagsMenu />
-          <AuthNavigation />
+          {isAuthenticated && <TagsMenu />}
+          <AuthNavigation isAuthenticated={isAuthenticated} />
         </ul>
       </nav>
     </header>

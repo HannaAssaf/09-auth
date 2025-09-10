@@ -4,7 +4,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignInPage.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ApiError } from "../../api/api";
+import { ApiError } from "@/lib/api/api";
 import { login } from "@/lib/api/clientApi";
 import { LoginRequestData } from "@/types/note";
 
