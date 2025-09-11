@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { RegisterRequestData } from "@/types/note";
 import { register } from "@/lib/api/clientApi";
-import { ApiError } from "@/lib/api/api";
+import { ApiError } from "../../api/api";
 import { useAuthStore } from "@/lib/store/authStore";
 
 export default function Register() {
