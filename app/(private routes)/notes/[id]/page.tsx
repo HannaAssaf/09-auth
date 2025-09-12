@@ -1,4 +1,4 @@
-import { fetchNoteById } from "../../../../lib/api/api";
+import { fetchNoteById } from "@/lib/api/serverApi";
 import {
   QueryClient,
   HydrationBoundary,
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `Note: ${data.title}`,
       description: data.content.slice(0, 100),
-      url: `https://08-zustand-fawn.vercel.app/notes/${id}`,
+      url: `https://09-auth-ashy-three.vercel.app/notes/${id}`,
       siteName: "NoteHub",
       images: [
         {

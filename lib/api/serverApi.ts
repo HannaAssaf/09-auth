@@ -1,39 +1,24 @@
 import { cookies } from "next/headers";
 import { nextServer } from "./api";
 import { User } from "@/types/user";
-import {
-  Note,
-  FetchNotesParams,
-  FetchNotesResponse,
-  RawFetchNotesResponse,
-} from "../../types/note";
+import { Note, FetchNotesProps } from "../../types/note";
 
-export const fetchNotes = async ({
-  page = 1,
-  perPage = 12,
-  search = "",
-  tag,
-}: FetchNotesParams): Promise<FetchNotesResponse> => {
-  const cookieStore = await cookies();
-  const response = await nextServer.get<RawFetchNotesResponse>(`/notes`, {
+export const fetchNotes = async (
+  search: string = "",
+  page: number = 1,
+  tag?: string,
+  perPage: number = 12
+) => {
+  const config = {
     params: {
+      search,
       page,
+      tag,
       perPage,
-      ...(search !== "" && { search }),
-      ...(tag && tag !== "All" ? { tag } : {}),
     },
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-
-  const raw = response.data;
-  return {
-    page,
-    perPage,
-    data: raw.notes,
-    total_pages: raw.totalPages,
   };
+  const response = await nextServer.get<FetchNotesProps>(`/notes`, config);
+  return response.data;
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {

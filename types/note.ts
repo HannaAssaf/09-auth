@@ -38,27 +38,6 @@ export interface TagType {
   updatedAt: string;
 }
 
-export interface RawFetchNotesResponse {
-  notes: Note[];
-  totalPages: number;
-  page?: number;
-  perPage?: number;
-}
-
-export interface FetchNotesParams {
-  page?: number;
-  perPage?: number;
-  search?: string;
-  tag?: string;
-}
-
-export interface FetchNotesResponse {
-  page: number;
-  perPage: number;
-  data: Note[];
-  total_pages: number;
-}
-
 export interface RegisterRequestData {
   email: string;
   password: string;

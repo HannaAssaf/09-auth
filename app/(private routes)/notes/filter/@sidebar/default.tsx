@@ -8,6 +8,11 @@ const tagCategoriesSidebar: string[] = [
   "Personal",
   "Meeting",
   "Shopping",
+  "Ideas",
+  "Travel",
+  "Finance",
+  "Health",
+  "Important",
 ];
 
 const NotesSidebar = async () => {

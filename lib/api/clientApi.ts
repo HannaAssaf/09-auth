@@ -5,35 +5,29 @@ import type {
   LoginRequestData,
   CheckSessionRequest,
   UpdateUser,
-  FetchNotesParams,
-  FetchNotesResponse,
-  RawFetchNotesResponse,
+  FetchNotesProps,
 } from "@/types/note";
 import type { User } from "@/types/user";
 import { nextServer } from "./api";
 
-export const fetchNotes = async ({
-  page = 1,
-  perPage = 12,
-  search = "",
-  tag,
-}: FetchNotesParams): Promise<FetchNotesResponse> => {
-  const response = await nextServer.get<RawFetchNotesResponse>(`/notes`, {
+export const fetchNotes = async (
+  search: string = "",
+  page: number = 1,
+  tag?: string,
+  perPage: number = 12
+) => {
+  const config = {
     params: {
+      search,
       page,
+      tag,
       perPage,
-      ...(search !== "" && { search }),
-      ...(tag && tag !== "All" ? { tag } : {}),
     },
-  });
-  const raw = response.data;
-  return {
-    page,
-    perPage,
-    data: raw.notes,
-    total_pages: raw.totalPages,
   };
+  const response = await nextServer.get<FetchNotesProps>(`/notes`, config);
+  return response.data;
 };
+
 export const createNote = async (payload: NewNoteData) => {
   const response = await nextServer.post<Note>(`/notes`, payload);
   return response.data;

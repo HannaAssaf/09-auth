@@ -30,13 +30,7 @@ function NotesClient({ initialData, tag }: NotesClientProps) {
     queryKey: ["notes", searchNote, page, tag],
     queryFn: () => fetchNotes(searchNote, page, tag),
     placeholderData: keepPreviousData,
-    initialData:
-      searchNote === "" && page === 1
-        ? {
-            notes: initialData.notes,
-            totalPages: initialData.totalPages,
-          }
-        : undefined,
+    initialData,
   });
 
   return (

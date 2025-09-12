@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     title: `NoteHub 08-zustand`,
     description:
       "NoteHub Application Optimisation with React Query and Zustand",
-    url: `https://08-zustand-fawn.vercel.app/`,
+    url: `https://09-auth-ashy-three.vercel.app/`,
     siteName: "NoteHub",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
         width: 1200,
         height: 630,
-        alt: "NoteHub 08-zustand",
+        alt: "NoteHub",
       },
     ],
     type: "article",

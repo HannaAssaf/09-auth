@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignInPage.module.css";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ApiError } from "@/app/api/api";
 import { login } from "@/lib/api/clientApi";
 import { LoginRequestData } from "@/types/note";
@@ -12,22 +12,15 @@ export default function Login() {
   const router = useRouter();
   const [error, setError] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace("/profile");
-    }
-  }, [isAuthenticated, router]);
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleLogin = async (formData: FormData) => {
     try {
-      const formData = new FormData(e.currentTarget);
-      const data = Object.fromEntries(formData) as unknown as LoginRequestData;
+      const formValues = Object.fromEntries(
+        formData
+      ) as unknown as LoginRequestData;
 
-      const response = await login(data);
+      const response = await login(formValues);
+
       if (response) {
         setUser(response);
         router.replace("/profile");
@@ -45,7 +38,7 @@ export default function Login() {
 
   return (
     <main className={css.mainContent}>
-      <form className={css.form} onSubmit={handleLogin}>
+      <form className={css.form} action={handleLogin}>
         <h1 className={css.formTitle}>Sign in</h1>
 
         <div className={css.formGroup}>
