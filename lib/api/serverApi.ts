@@ -50,3 +50,13 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+export const updateServerMe = async (): Promise<User> => {
+  const cookieStore = await cookies();
+  const { data } = await nextServer.patch("/users/me", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};

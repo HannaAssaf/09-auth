@@ -5,11 +5,11 @@ import { logErrorResponse } from "../../_utils/utils";
 import { isAxiosError } from "axios";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export async function GET(request: Request, { params }: Props) {
-  const { id } = params;
+  const { id } = await params;
   try {
     const cookieStore = await cookies();
     const res = await api(`/notes/${id}`, {
@@ -17,6 +17,8 @@ export async function GET(request: Request, { params }: Props) {
         Cookie: cookieStore.toString(),
       },
     });
+    console.log(res.data);
+
     return NextResponse.json(res.data, { status: res.status });
   } catch (err) {
     if (isAxiosError(err)) {
@@ -36,9 +38,9 @@ export async function GET(request: Request, { params }: Props) {
 }
 
 export async function DELETE(request: Request, { params }: Props) {
+  const { id } = await params;
   try {
     const cookieStore = await cookies();
-    const { id } = params;
 
     const res = await api.delete(`/notes/${id}`, {
       headers: {
@@ -63,9 +65,9 @@ export async function DELETE(request: Request, { params }: Props) {
 }
 
 export async function PATCH(request: Request, { params }: Props) {
+  const { id } = await params;
   try {
     const cookieStore = await cookies();
-    const { id } = params;
     const body = await request.json();
 
     const res = await api.patch(`/notes/${id}`, body, {

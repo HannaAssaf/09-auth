@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Profile Page`,
     description: "User profile page",
-    url: `https://08-zustand-fawn.vercel.app/profile`,
+    url: `https://09-auth-ashy-three.vercel.app/profile`,
     siteName: "NoteHub",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
         width: 1200,
         height: 630,
-        alt: "NoteHub 09-auth",
+        alt: "NoteHub Profile Page",
       },
     ],
     type: "article",

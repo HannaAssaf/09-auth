@@ -7,10 +7,10 @@ import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "08-zustand",
+  title: "Authenticated",
   description: "NoteHub App",
   openGraph: {
-    title: `NoteHub 08-zustand`,
+    title: `NoteHub Auth`,
     description:
       "NoteHub Application Optimisation with React Query and Zustand",
     url: `https://09-auth-ashy-three.vercel.app/`,

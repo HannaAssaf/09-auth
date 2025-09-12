@@ -7,10 +7,11 @@ const privateRoutes = ["/profile", "/notes"];
 const publicRoutes = ["/sign-in", "/sign-up"];
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
+
+  const { pathname } = request.nextUrl;
 
   const isPrivateRoute = privateRoutes.some((route) =>
     pathname.startsWith(route)
@@ -26,7 +27,6 @@ export async function middleware(request: NextRequest) {
 
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-
         for (const cookieStr of cookieArray) {
           const parsed = parse(cookieStr);
           const options = {
@@ -34,40 +34,43 @@ export async function middleware(request: NextRequest) {
             path: parsed.Path,
             maxAge: parsed["Max-Age"] ? Number(parsed["Max-Age"]) : undefined,
           };
-
-          if (parsed.accessToken) {
+          if (parsed.accessToken)
             cookieStore.set("accessToken", parsed.accessToken, options);
-          }
-          if (parsed.refreshToken) {
+          if (parsed.refreshToken)
             cookieStore.set("refreshToken", parsed.refreshToken, options);
-          }
-          if (isPublicRoute) {
-            return NextResponse.redirect(new URL("/", request.url), {
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
-            });
-          }
-          if (isPrivateRoute) {
-            return NextResponse.next({
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
-            });
-          }
+        }
+
+        if (isPublicRoute) {
+          return NextResponse.redirect(new URL("/", request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+        }
+
+        if (isPrivateRoute) {
+          return NextResponse.next({
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
         }
       }
     }
+
     if (isPublicRoute) {
       return NextResponse.next();
     }
+
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
   }
+
   if (isPublicRoute) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
   if (isPrivateRoute) {
     return NextResponse.next();
   }

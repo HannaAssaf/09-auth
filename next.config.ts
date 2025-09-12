@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       {
         hostname: "ac.goit.global",
       },
+      // { hostname: "aliiev-lomach.com" },
     ],
   },
   async headers() {

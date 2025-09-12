@@ -20,7 +20,7 @@ export default async function Header() {
               Home
             </Link>
           </li>
-          {isAuthenticated && <TagsMenu />}
+          <TagsMenu />
           <AuthNavigation isAuthenticated={isAuthenticated} />
         </ul>
       </nav>
