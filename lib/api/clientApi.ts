@@ -61,7 +61,7 @@ export const logout = async (): Promise<void> => {
   await nextServer.post<User>(`/auth/logout`);
 };
 
-export const checkSession = async (): Promise<Boolean> => {
+export const checkSession = async (): Promise<boolean> => {
   const { data } = await nextServer.get<CheckSessionRequest>("/auth/session");
   return data.success;
 };
