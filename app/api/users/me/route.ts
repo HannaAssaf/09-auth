@@ -7,9 +7,8 @@ import { logErrorResponse } from "../../_utils/utils";
 import { isAxiosError } from "axios";
 
 export async function GET() {
+  const cookieStore = await cookies();
   try {
-    const cookieStore = await cookies();
-
     const res = await api.get("/users/me", {
       headers: {
         Cookie: cookieStore.toString(),
