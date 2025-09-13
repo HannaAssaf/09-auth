@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import css from "./TagsMenu.module.css";
 import Link from "next/link";
 import { NoteTag } from "../../types/note";
@@ -19,10 +19,41 @@ const tagCategories: NoteTag[] = [
 
 const TagsMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const toggle = () => setIsOpen(!isOpen);
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+
+  const toggle = () => setIsOpen((prev) => !prev);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (
+        menuContainerRef.current &&
+        !menuContainerRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isOpen]);
 
   return (
-    <div className={css.menuContainer}>
+    <div className={css.menuContainer} ref={menuContainerRef}>
       <button className={css.menuButton} onClick={toggle}>
         Notes ▾
       </button>
