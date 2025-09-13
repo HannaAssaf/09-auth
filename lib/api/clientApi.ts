@@ -1,5 +1,6 @@
 import type {
   Note,
+  Params,
   NewNoteData,
   RegisterRequestData,
   LoginRequestData,
@@ -15,16 +16,19 @@ export const fetchNotes = async (
   page: number = 1,
   tag?: string,
   perPage: number = 12
-) => {
-  const config = {
-    params: {
-      search,
-      page,
-      tag,
-      perPage,
-    },
+): Promise<FetchNotesProps> => {
+  const params: Params = {
+    page,
+    perPage,
+    tag,
   };
-  const response = await nextServer.get<FetchNotesProps>(`/notes`, config);
+  if (search) {
+    params.search = search;
+  }
+
+  const response = await nextServer.get<FetchNotesProps>(`/notes`, {
+    params,
+  });
   return response.data;
 };
 

@@ -7,6 +7,13 @@ export interface Note {
   tag: NoteTag;
 }
 
+export interface Params {
+  page: number;
+  perPage: number;
+  search?: string;
+  tag?: string;
+}
+
 export type NoteTag =
   | "Todo"
   | "Work"

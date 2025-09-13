@@ -1,23 +1,30 @@
 import { cookies } from "next/headers";
 import { nextServer } from "./api";
 import { User } from "@/types/user";
-import { Note, FetchNotesProps } from "../../types/note";
+import { Note, FetchNotesProps, Params } from "../../types/note";
 
 export const fetchNotes = async (
   search: string = "",
   page: number = 1,
   tag?: string,
   perPage: number = 12
-) => {
-  const config = {
-    params: {
-      search,
-      page,
-      tag,
-      perPage,
-    },
+): Promise<FetchNotesProps> => {
+  const cookieStore = await cookies();
+  const params: Params = {
+    page,
+    perPage,
+    tag,
   };
-  const response = await nextServer.get<FetchNotesProps>(`/notes`, config);
+  if (search) {
+    params.search = search;
+  }
+  const headers = {
+    Cookie: cookieStore.toString(),
+  };
+  const response = await nextServer.get<FetchNotesProps>(`/notes`, {
+    params,
+    headers,
+  });
   return response.data;
 };
 
