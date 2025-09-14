@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import css from "./EditProfilePage.module.css";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -10,26 +10,16 @@ import { getMe, updateMe } from "@/lib/api/clientApi";
 export default function EditProfile() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-  const [username, setUsername] = useState(user?.username || "");
   const router = useRouter();
 
-  useEffect(() => {
-    getMe().then((user) => {
-      setUsername(user.username ?? "");
-    });
-  }, [user?.username]);
+  const [username, setUsername] = useState(user?.username ?? "");
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSaveUser = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await updateMe({ username });
+  const handleSaveUser = async (formData: FormData) => {
+    const newName = (formData.get("username") as string | null)?.trim() ?? "";
 
     try {
       const updatedUser = await updateMe({ username });
-      setUser(updatedUser);
+      setUser(updatedUser ?? { ...user!, username });
       router.push("/profile");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -37,7 +27,7 @@ export default function EditProfile() {
   };
 
   const handleBack = () => {
-    router.back();
+    router.push("/profile");
   };
 
   return (
@@ -56,15 +46,15 @@ export default function EditProfile() {
           className={css.avatar}
         />
 
-        <form className={css.profileInfo} onSubmit={handleSaveUser}>
+        <form className={css.profileInfo} action={handleSaveUser}>
           <div className={css.usernameWrapper}>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">Username: {user?.username}</label>
             <input
               id="username"
+              name="username"
               type="text"
               className={css.input}
               value={username}
-              onChange={handleChange}
             />
           </div>
 

@@ -4,9 +4,11 @@ import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignInPage.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ApiError } from "@/app/api/api";
+import { AxiosError } from "axios";
 import { login } from "@/lib/api/clientApi";
 import { LoginRequestData } from "@/types/note";
+
+type ApiError = AxiosError<{ error: string }>;
 
 export default function Login() {
   const router = useRouter();
@@ -28,9 +30,10 @@ export default function Login() {
         setError("Invalid email or password");
       }
     } catch (error) {
+      const apiError = error as ApiError;
       setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
+        apiError.response?.data?.error ??
+          apiError.message ??
           "Oops... some error"
       );
     }
