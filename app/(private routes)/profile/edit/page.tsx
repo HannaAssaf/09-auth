@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import css from "./EditProfilePage.module.css";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -10,24 +10,31 @@ import { getMe, updateMe } from "@/lib/api/clientApi";
 export default function EditProfile() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+
   const router = useRouter();
 
   const [username, setUsername] = useState(user?.username ?? "");
 
+  useEffect(() => {
+    getMe().then((user) => {
+      setUsername(user.username ?? "");
+    });
+  }, [user?.username]);
+
   const handleSaveUser = async (formData: FormData) => {
     const newName = (formData.get("username") as string | null)?.trim() ?? "";
-
+    if (!newName) return;
     try {
-      const updatedUser = await updateMe({ username });
-      setUser(updatedUser ?? { ...user!, username });
+      await updateMe({ username: newName });
+      setUser({
+        username: newName,
+        email: user?.email ?? "",
+        avatar: user?.avatar ?? "",
+      });
       router.push("/profile");
     } catch (error) {
       console.error("Error updating profile:", error);
     }
-  };
-
-  const handleBack = () => {
-    router.push("/profile");
   };
 
   return (
@@ -55,6 +62,7 @@ export default function EditProfile() {
               type="text"
               className={css.input}
               value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
@@ -67,7 +75,7 @@ export default function EditProfile() {
             <button
               type="button"
               className={css.cancelButton}
-              onClick={handleBack}
+              onClick={() => router.push("/profile")}
             >
               Cancel
             </button>
