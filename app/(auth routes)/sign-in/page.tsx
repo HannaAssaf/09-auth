@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 import { login } from "@/lib/api/clientApi";
 import { LoginRequestData } from "@/types/note";
 
-type ApiError = AxiosError<{ error: string }>;
+export type ApiError = AxiosError<{ error: string }>;
 
 export default function Login() {
   const router = useRouter();
