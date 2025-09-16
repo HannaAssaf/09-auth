@@ -23,10 +23,19 @@ export async function middleware(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       const data = await checkServerSession();
-      const setCookie = data.headers["set-cookie"];
+      const setCookie = data?.headers["set-cookie"];
 
       if (setCookie) {
+        let response;
+        if (isPublicRoute) {
+          response = NextResponse.redirect(new URL("/", request.url));
+        } else if (isPrivateRoute) {
+          response = NextResponse.next();
+        } else {
+          response = NextResponse.next();
+        }
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+
         for (const cookieStr of cookieArray) {
           const parsed = parse(cookieStr);
           const options = {
@@ -35,26 +44,11 @@ export async function middleware(request: NextRequest) {
             maxAge: parsed["Max-Age"] ? Number(parsed["Max-Age"]) : undefined,
           };
           if (parsed.accessToken)
-            cookieStore.set("accessToken", parsed.accessToken, options);
+            response.cookies.set("accessToken", parsed.accessToken, options);
           if (parsed.refreshToken)
-            cookieStore.set("refreshToken", parsed.refreshToken, options);
+            response.cookies.set("refreshToken", parsed.refreshToken, options);
         }
-
-        if (isPublicRoute) {
-          return NextResponse.redirect(new URL("/", request.url), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
-        }
-
-        if (isPrivateRoute) {
-          return NextResponse.next({
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
-        }
+        return response;
       }
     }
 
@@ -65,6 +59,7 @@ export async function middleware(request: NextRequest) {
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {
@@ -74,7 +69,9 @@ export async function middleware(request: NextRequest) {
   if (isPrivateRoute) {
     return NextResponse.next();
   }
+  return NextResponse.next();
 }
+
 export const config = {
   matcher: ["/profile/:path*", "/notes/:path*", "/sign-in", "/sign-up"],
 };
