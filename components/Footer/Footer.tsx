@@ -9,7 +9,10 @@ export default function Footer() {
           <p>Developer: Hanna Assaf</p>
           <p>
             Contact us:
-            <a href="mailto:student@notehub.app"> student@notehub.app</a>
+            <a href="mailto:hanna.assaf.dev@gmail.com">
+              {" "}
+              hanna.assaf.dev@gmail.com
+            </a>
           </p>
         </div>
       </div>
