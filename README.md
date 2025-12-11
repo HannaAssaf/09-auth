@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🔐 Next.js Auth — Login & Registration Flow
 
-First, run the development server:
+### _A practice project demonstrating authentication flow, protected routes, form validation, and API integration._
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<img src="https://img.shields.io/badge/project-Authentication-blue" />
+<img src="https://img.shields.io/badge/tech-React-61dafb" />
+<img src="https://img.shields.io/badge/tech-Next.js-000000" />
+<img src="https://img.shields.io/badge/tech-TanStack_Query-ff6a3d" />
+<img src="https://img.shields.io/badge/tech-Axios-yellow" />
+<img src="https://img.shields.io/badge/tech-TypeScript-3178c6" />
+<img src="https://img.shields.io/badge/builder-Vite-orange" />
+<img src="https://img.shields.io/badge/ui-CSS_Modules-blueviolet" />
+<img src="https://img.shields.io/badge/feature-Form_Validation-green" />
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔗 **Live Demo**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+https://09-auth-ashy-three.vercel.app/
 
-## Learn More
+</div>
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📌 Overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project implements a classic **authentication flow** including:
 
-## Deploy on Vercel
+- user registration  
+- user login  
+- handling server responses  
+- token-based auth (or mock-auth depending on your API)  
+- protecting private routes  
+- showing/hiding UI depending on auth state  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The logic is designed in a way that mirrors real-world patterns used in **React and Next.js applications**, making the codebase ready for future migration into a full Next.js project if needed.
+It combines React components with modern tools like **TanStack Query**, **Axios**, and **TypeScript**, making it a strong foundation for production-grade authentication flows.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🖼️ Preview
+
+<img src="public/notehub2.png" width="850" />
+
+---
+
+## ✨ Key Features
+
+- 🔐 **Registration & login forms**
+- 📝 **Form validation** (frontend + server responses)
+- 🔄 **Auth state management**
+- 🧭 **Protected routes**
+- 🎯 **React Query mutations for login/registration**
+- 🛡️ **Token handling & conditional UI**
+- 📡 **Reusable Axios instance**
+- ⚡ **Instant UI updates based on auth state**
+- 🧩 **Modular & clean component structure**
+
+---
+
+## 🛠 Tech Stack
+
+- **Next.js**
+- **React 18**
+- **TypeScript**
+- **TanStack Query (React Query)**
+- **Axios**
+- **Vite**
+- **CSS Modules**
+- **React Router**
+
+
+---
+
+<div align="center">
+🧡 *Learning by doing — one project at a time.*
+</div>
