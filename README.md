@@ -28,12 +28,12 @@ https://09-auth-ashy-three.vercel.app/
 
 This project implements a classic **authentication flow** including:
 
-- user registration  
-- user login  
-- handling server responses  
-- token-based auth (or mock-auth depending on your API)  
-- protecting private routes  
-- showing/hiding UI depending on auth state  
+- user registration
+- user login
+- handling server responses
+- token-based auth (or mock-auth depending on your API)
+- protecting private routes
+- showing/hiding UI depending on auth state
 
 The logic is designed in a way that mirrors real-world patterns used in **React and Next.js applications**, making the codebase ready for future migration into a full Next.js project if needed.
 It combines React components with modern tools like **TanStack Query**, **Axios**, and **TypeScript**, making it a strong foundation for production-grade authentication flows.
@@ -42,7 +42,7 @@ It combines React components with modern tools like **TanStack Query**, **Axios*
 
 ## 🖼️ Preview
 
-<img src="public/notehub2.png" width="850" />
+<img src="public/readme/notehub2.png" width="850" />
 
 ---
 
@@ -70,7 +70,6 @@ It combines React components with modern tools like **TanStack Query**, **Axios*
 - **Vite**
 - **CSS Modules**
 - **React Router**
-
 
 ---
 
